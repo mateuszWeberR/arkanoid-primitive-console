@@ -15,6 +15,7 @@ public class Arkanoid {
     private Paddle paddle;
 
     private boolean isGameOver = false;
+    private boolean isWin = false;
 
     public Arkanoid(int width, int height) {
         this.width = width;
@@ -95,7 +96,7 @@ public class Arkanoid {
         keyboardObserver.start();
 
         // Execute the loop until the game is over
-        while (!isGameOver) {
+        while (!isGameOver && !isWin) {
             // Does the observer have any key events?
             if (keyboardObserver.hasKeyEvents()) {
                 KeyEvent event = keyboardObserver.getEventFromTop();
@@ -119,6 +120,7 @@ public class Arkanoid {
             checkPaddleCollision();
 
             // Check whether the ball flew out the bottom.
+            checkWinning();
             checkGameOver();
 
             // Draw all the objects
@@ -131,7 +133,17 @@ public class Arkanoid {
         }
 
         // Display "Game Over"
-        System.out.println("Game Over!");
+        if (isWin) {
+            System.out.println("You are Winner!");
+        } else {
+            System.out.println("Game Over!");
+        }
+
+    }
+
+    void checkWinning() {
+        if (getBricks().size() == 0)
+            isWin = true;
     }
 
     /**
@@ -196,20 +208,20 @@ public class Arkanoid {
     public static Arkanoid game;
 
     public static void main(String[] args) throws Exception {
-        game = new Arkanoid(20, 20);
+        game = new Arkanoid(20, 22);
 
-        Ball ball = new Ball(10, 19, 2, 95);
+        Ball ball = new Ball(10, 21, 2, 95);
         game.setBall(ball);
 
-        Paddle paddle = new Paddle(10, 20);
+        Paddle paddle = new Paddle(10, 22);
         game.setPaddle(paddle);
 
         game.getBricks().add(new Brick(3, 3));
         game.getBricks().add(new Brick(7, 5));
         game.getBricks().add(new Brick(12, 5));
         game.getBricks().add(new Brick(16, 3));
-        game.getBricks().add(new Brick(8, 2));
-        game.getBricks().add(new Brick(13, 1));
+//        game.getBricks().add(new Brick(8, 2));
+//        game.getBricks().add(new Brick(13, 1));
 
         game.run();
     }

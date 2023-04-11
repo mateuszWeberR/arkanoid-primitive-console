@@ -18,7 +18,7 @@ public class Paddle extends BaseObject {
     private double direction = 0;
 
     public Paddle(double x, double y) {
-        super(x, y, 3);
+        super(x, y, 2);
     }
 
     /**
